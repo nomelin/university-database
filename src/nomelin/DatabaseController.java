@@ -1,9 +1,11 @@
 package nomelin;
 
 import nomelin.entity.Course;
+import nomelin.entity.CourseMessage;
 import nomelin.entity.Student;
 import nomelin.entity.Teacher;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -154,11 +156,65 @@ public class DatabaseController implements DatabaseControlInterface {
             pStmt = con.prepareStatement(query);
             pStmt.setString(1, courseID);
             pStmt.setString(2, name);
-            pStmt.setFloat(3, credit);
+            pStmt.setBigDecimal(3,BigDecimal.valueOf(credit));
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Course queryCourseByID(String courseID) {
+        Course course = null;
+        try {
+            String query = "SELECT * FROM 课程 WHERE 课程号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, courseID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                course = new Course(
+                        rs.getString("课程号"),
+                        rs.getString("课程名"),
+                        rs.getFloat("学分")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return course;
+    }
+
+    @Override
+    public void insertTeacher(String teacherID, String name) {
+        try {
+            String query = "INSERT INTO 教师 (工号, 姓名) VALUES (?, ?)";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, teacherID);
+            pStmt.setString(2, name);
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Teacher queryTeacherByID(String teacherID) {
+        Teacher teacher = null;
+        try {
+            String query = "SELECT * FROM 教师 WHERE 工号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, teacherID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                teacher = new Teacher(
+                        rs.getString("工号"),
+                        rs.getString("姓名")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teacher;
     }
     @Override
     public List<Student> queryStudentByMajorID(String majorID) {
@@ -171,13 +227,24 @@ public class DatabaseController implements DatabaseControlInterface {
     }
 
     @Override
-    public void insertScore(String studentID, String courseName, String isMakeUp, double score) {
-
+    public void insertScore(String studentID, String courseID, String isMakeUp, double score) {
+        try {
+            String query = "INSERT INTO 成绩 (学号, 课程号, 是否补考, 成绩) VALUES (?, ?, ?, ?)";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            pStmt.setString(2, courseID);
+            pStmt.setString(3, isMakeUp);
+            pStmt.setBigDecimal(4, BigDecimal.valueOf(score));
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+
     @Override
-    public List<Course> queryCoursesByStudentID(String studentID) {
-        return null;
+    public List<CourseMessage> queryCoursesByStudentID(String studentID) {
+       return null;
     }
 
     @Override
