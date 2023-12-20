@@ -100,5 +100,18 @@ public interface DatabaseControlInterface {
     // 学业管理
     List<Student> queryStudentsNearDismissal(int creditThreshold);
 
+    /**
+     * 添加班级
+     */
+    void insertClass(String classID,String year,String majorID);
 
+    /**
+     * 添加专业教学计划
+     */
+    void insertPlan(String majorID,String courseID,String type,String term);
+
+    /**
+     * 添加班级教学表
+     */
+    void insertTeach(String classID,String courseID,String teacherID);
 }

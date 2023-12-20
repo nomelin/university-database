@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24492afa-4e7b-4552-b75c-bc6b2d4e07f7" name="更改" comment="1">
+      <change afterPath="$PROJECT_DIR$/src/nomelin/FileInput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/nomelin/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/学生.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/成绩.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/教学.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/教学计划.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/教师.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/班级.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/课程.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" afterDir="false" />
@@ -16,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -61,9 +70,35 @@
     ]
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="应用程序.Main">
+    <configuration name="FileInput" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nomelin.FileInput" />
+      <module name="database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nomelin.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="nomelin.Main" />
+      <module name="database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nomelin.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nomelin.Test" />
       <module name="database" />
       <extension name="coverage">
         <pattern>
@@ -78,6 +113,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="应用程序.Main" />
+        <item itemvalue="应用程序.Test" />
+        <item itemvalue="应用程序.FileInput" />
       </list>
     </recent_temporary>
   </component>
@@ -91,7 +128,7 @@
       <updated>1702883830283</updated>
       <workItem from="1702883831747" duration="101000" />
       <workItem from="1702990155389" duration="2023000" />
-      <workItem from="1703048131456" duration="15048000" />
+      <workItem from="1703048131456" duration="21812000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1703046967832</created>
@@ -184,7 +221,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703070812783</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="1">
+      <created>1703073219682</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1703073219682</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
