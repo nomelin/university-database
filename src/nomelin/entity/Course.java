@@ -1,4 +1,4 @@
 package nomelin.entity;
 
-public class Course {
+public record Course(String ID, String name, float credit) {
 }

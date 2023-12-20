@@ -1,4 +1,4 @@
 package nomelin.entity;
 
-public class Teacher {
+public record Teacher(String ID, String name) {
 }
