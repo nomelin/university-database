@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface DatabaseControlInterface {
     // 数据库连接管理
-    void connectToDatabase();
+    void connectDatabase();
 
-    void disconnectFromDatabase();
+    void disconnectDatabase();
+
+    //课程管理
+    void insertCourse(String courseID, String name, float credit);
 
     // 学生信息管理
     void insertStudent(String studentID, String name, String gender, String birthday, String classID);
