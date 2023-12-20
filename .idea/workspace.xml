@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24492afa-4e7b-4552-b75c-bc6b2d4e07f7" name="更改" comment="1">
-      <change afterPath="$PROJECT_DIR$/src/nomelin/entity/CourseMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nomelin/enums/Gender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nomelin/enums/Term.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nomelin/enums/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nomelin/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nomelin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +91,7 @@
       <updated>1702883830283</updated>
       <workItem from="1702883831747" duration="101000" />
       <workItem from="1702990155389" duration="2023000" />
-      <workItem from="1703048131456" duration="12519000" />
+      <workItem from="1703048131456" duration="15048000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1703046967832</created>
@@ -181,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703057871047</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="1">
+      <created>1703070812783</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1703070812783</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

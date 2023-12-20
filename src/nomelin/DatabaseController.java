@@ -196,6 +196,25 @@ public class DatabaseController implements DatabaseControlInterface {
             e.printStackTrace();
         }
     }
+    @Override
+    public String queryMajorByStudent(String studentID){
+        try {
+            String query = "SELECT 专业.专业名 " +
+                    "FROM 专业 " +
+                    "INNER JOIN 班级 ON 专业.专业号 = 班级.专业号 " +
+                    "INNER JOIN 学生 ON 班级.班号 = 学生.班号 " +
+                    "WHERE 学生.学号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("专业名");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public Teacher queryTeacherByID(String teacherID) {
@@ -254,13 +273,25 @@ public class DatabaseController implements DatabaseControlInterface {
 
     @Override
     public double queryAverageScoreForAllCourses(String studentID) {
-        return 0;
+        try {
+            String query = "SELECT AVG(成绩) AS 平均成绩 FROM 成绩 WHERE 学号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("平均成绩");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public List<Teacher> queryTeachersForStudent(String studentID) {
         return null;
     }
+
 
     @Override
     public List<Student> queryStudentsNearDismissal(int creditThreshold) {
