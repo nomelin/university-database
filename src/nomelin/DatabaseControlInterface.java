@@ -1,9 +1,6 @@
 package nomelin;
 
-import nomelin.entity.Course;
-import nomelin.entity.CourseMessage;
-import nomelin.entity.Student;
-import nomelin.entity.Teacher;
+import nomelin.entity.*;
 import nomelin.enums.Gender;
 
 import java.util.List;
@@ -50,7 +47,7 @@ public interface DatabaseControlInterface {
     /**
      * 通过学号查询学生专业
      */
-    String queryMajorByStudent(String studentID);
+    Major queryMajorByStudent(String studentID);
 
     // 学生成绩管理
 

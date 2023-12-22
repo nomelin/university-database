@@ -1,10 +1,8 @@
 package nomelin;
 
-import nomelin.entity.Course;
-import nomelin.entity.CourseMessage;
-import nomelin.entity.Student;
-import nomelin.entity.Teacher;
+import nomelin.entity.*;
 
+import java.lang.Class;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.text.ParseException;
@@ -214,9 +212,10 @@ public class DatabaseController implements DatabaseControlInterface {
     }
 
     @Override
-    public String queryMajorByStudent(String studentID) {
+    public Major queryMajorByStudent(String studentID) {
+        Major major=null;
         try {
-            String query = "SELECT 专业.专业名 " +
+            String query = "SELECT 专业.* " +
                     "FROM 专业 " +
                     "INNER JOIN 班级 ON 专业.专业号 = 班级.专业号 " +
                     "INNER JOIN 学生 ON 班级.班号 = 学生.班号 " +
@@ -225,12 +224,15 @@ public class DatabaseController implements DatabaseControlInterface {
             pStmt.setString(1, studentID);
             rs = pStmt.executeQuery();
             if (rs.next()) {
-                return rs.getString("专业名");
+                major=new Major(
+                        rs.getString("专业号"),
+                        rs.getString("专业名")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return major;
     }
 
     @Override
@@ -270,12 +272,12 @@ public class DatabaseController implements DatabaseControlInterface {
 
     @Override
     public List<Student> queryStudentByMajorID(String majorID) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public List<Student> queryStudentByMajorName(String majorName) {
-        return null;
+        return null;//TODO
     }
 
 
