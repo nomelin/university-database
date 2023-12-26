@@ -1,7 +1,7 @@
 package nomelin;
 
 import nomelin.entity.*;
-import nomelin.enums.Gender;
+import nomelin.entity.Class;
 
 import java.util.List;
 
@@ -30,7 +30,6 @@ public interface DatabaseControlInterface {
     Student queryStudentByID(String studentID);
 
     List<Student> queryStudentByName(String name);
-
 
 
     /**
@@ -93,22 +92,38 @@ public interface DatabaseControlInterface {
 
     /**
      * 查询快开除的学生
+     *
+     * @param value 距离开除分数的差值。学生达到如下条件之一的被开除：
+     *              不及格必修课累计达10学分、或不及格选修课累计达15学分
      */
     // 学业管理
-    List<Student> queryStudentsNearDismissal(int creditThreshold);
+    List<Student> queryStudentsNearDismissal(float value);
+
+    /**
+     * 查询一个教师教一个学生哪门课。
+     */
+    Course queryCourseByStudentAndTeacher(String studentID, String teacherID);
 
     /**
      * 添加班级
      */
-    void insertClass(String classID,String year,String majorID);
+    void insertClass(String classID, String year, String majorID);
 
     /**
      * 添加专业教学计划
      */
-    void insertPlan(String majorID,String courseID,String type,String term);
+    void insertPlan(String majorID, String courseID, String type, String term);
 
     /**
      * 添加班级教学表
      */
-    void insertTeach(String classID,String courseID,String teacherID);
+    void insertTeach(String classID, String courseID, String teacherID);
+
+    /**
+     * 通过专业号查询专业
+     */
+    Major queryMajorByID(String majorID);
+
+
+    Class queryClassByStudentID(String studentID);
 }

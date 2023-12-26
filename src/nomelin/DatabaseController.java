@@ -1,6 +1,7 @@
 package nomelin;
 
 import nomelin.entity.*;
+import nomelin.enums.Type;
 
 import java.lang.Class;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class DatabaseController implements DatabaseControlInterface {
     private static final String DB_PASSWORD = "123456";
     private Connection con = null;
     private PreparedStatement pStmt = null;
-    private Statement stmt = null;
+    //private Statement stmt = null;
     private ResultSet rs = null;
 
 
@@ -56,6 +58,7 @@ public class DatabaseController implements DatabaseControlInterface {
                 e.printStackTrace();
             }
         }
+        /*
         if (stmt != null) {
             //7、释放资源
             try {
@@ -63,7 +66,7 @@ public class DatabaseController implements DatabaseControlInterface {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         if (rs != null) {
             //7、释放资源
             try {
@@ -213,7 +216,7 @@ public class DatabaseController implements DatabaseControlInterface {
 
     @Override
     public Major queryMajorByStudent(String studentID) {
-        Major major=null;
+        Major major = null;
         try {
             String query = "SELECT 专业.* " +
                     "FROM 专业 " +
@@ -224,7 +227,7 @@ public class DatabaseController implements DatabaseControlInterface {
             pStmt.setString(1, studentID);
             rs = pStmt.executeQuery();
             if (rs.next()) {
-                major=new Major(
+                major = new Major(
                         rs.getString("专业号"),
                         rs.getString("专业名")
                 );
@@ -272,12 +275,42 @@ public class DatabaseController implements DatabaseControlInterface {
 
     @Override
     public List<Student> queryStudentByMajorID(String majorID) {
-        return null;//TODO
+        return queryStudentByMajorName(queryMajorByID(majorID).name());
     }
 
     @Override
     public List<Student> queryStudentByMajorName(String majorName) {
-        return null;//TODO
+        List<Student> students = new ArrayList<>();
+        try {
+            String query = "SELECT 学生.* " +
+                    "FROM 学生 " +
+                    "INNER JOIN 班级 ON 学生.班号 = 班级.班号 " +
+                    "INNER JOIN 专业 ON 班级.专业号 = 专业.专业号 " +
+                    "WHERE 专业.专业名 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, majorName);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                Date birthDate = rs.getDate("出生年月"); // 获取出生年月的Date对象
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+                SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+                String year = yearFormat.format(birthDate); // 格式化年份
+                String month = monthFormat.format(birthDate); // 格式化月份
+
+                Student student = new Student(
+                        rs.getString("学号"),
+                        rs.getString("姓名"),
+                        rs.getString("性别"),
+                        year,
+                        month,
+                        rs.getString("班号")
+                );
+                students.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
     }
 
 
@@ -300,39 +333,135 @@ public class DatabaseController implements DatabaseControlInterface {
 
     @Override
     public List<CourseMessage> queryCoursesByStudentID(String studentID) {
-        return null;
-    }
-
-    @Override
-    public double queryAverageScoreForCompulsoryCourses(String studentID) {
-        return 0;
-    }
-
-    @Override
-    public double queryAverageScoreForAllCourses(String studentID) {
+        nomelin.entity.Class class1 = queryClassByStudentID(studentID);
+        List<CourseMessage> courseMessages = new ArrayList<>();
         try {
-            String query = "SELECT AVG(成绩) AS 平均成绩 FROM 成绩 WHERE 学号 = ?";
+            String query = "SELECT * " +
+                    "FROM 课程 " +
+                    "INNER JOIN 教学计划 ON 课程.课程号 = 教学计划.课程号 " +
+                    "INNER JOIN 成绩 ON 教学计划.课程号 = 成绩.课程号 " +
+                    "WHERE 教学计划.专业号 = ? AND 成绩.学号 = ? ";
             pStmt = con.prepareStatement(query);
-            pStmt.setString(1, studentID);
+            pStmt.setString(1, class1.majorID());
+            pStmt.setString(2, studentID);
+            //System.out.println(class1.majorID()+" "+studentID);
             rs = pStmt.executeQuery();
-            if (rs.next()) {
-                return rs.getDouble("平均成绩");
+            while (rs.next()) {
+                CourseMessage courseMessage = new CourseMessage(
+                        new Course(
+                                rs.getString("课程号"),
+                                rs.getString("课程名"),
+                                rs.getFloat("学分")
+                        ),
+                        rs.getString("性质"),
+                        rs.getString("授课学期"),
+                        rs.getString("是否补考"),
+                        rs.getDouble("成绩")
+                );
+                courseMessages.add(courseMessage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return courseMessages;
+    }
+
+    @Override
+    public double queryAverageScoreForCompulsoryCourses(String studentID) {
+        List<CourseMessage> courseMessages = queryCoursesByStudentID(studentID);
+        double sum = 0;
+        double creditSum = 0;
+        for (CourseMessage courseMessage : courseMessages) {
+            if (courseMessage.type().equals(Type.O.type())) {
+                continue;
+            }
+            creditSum += courseMessage.course().credit();
+            sum += courseMessage.score() * courseMessage.course().credit();
+        }
+        if (creditSum == 0.0) {
+            return 0;
+        }
+        return sum / creditSum;
+    }
+
+    @Override
+    public double queryAverageScoreForAllCourses(String studentID) {
+        List<CourseMessage> courseMessages = queryCoursesByStudentID(studentID);
+        double sum = 0;
+        double creditSum = 0;
+        for (CourseMessage courseMessage : courseMessages) {
+            creditSum += courseMessage.course().credit();
+            sum += courseMessage.score() * courseMessage.course().credit();
+        }
+        if (creditSum == 0.0) {
+            return 0;
+        }
+        return sum / creditSum;
     }
 
     @Override
     public List<Teacher> queryTeachersForStudent(String studentID) {
-        return null;
+        List<Teacher> teachers = new ArrayList<>();
+        try {
+            String query = "SELECT 教师.* " +
+                    "FROM 教师 " +
+                    "INNER JOIN 教学 ON 教师.工号 = 教学.工号 " +
+                    "INNER JOIN 班级 ON 教学.班号 = 班级.班号 " +
+                    "INNER JOIN 学生 ON 班级.班号 = 学生.班号 " +
+                    "WHERE 学号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                Teacher teacher = new Teacher(
+                        rs.getString("工号"),
+                        rs.getString("姓名")
+                );
+                teachers.add(teacher);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teachers;
     }
 
 
     @Override
-    public List<Student> queryStudentsNearDismissal(int creditThreshold) {
-        return null;
+    public List<Student> queryStudentsNearDismissal(float value) {
+        List<String> studentIDs = new ArrayList<>();
+        try {
+            String query = "SELECT 学号 " +
+                    "FROM 学生 ";
+            pStmt = con.prepareStatement(query);
+            rs = pStmt.executeQuery();
+            while (rs.next()) {
+                studentIDs.add(rs.getString("学号"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<Student> students = new ArrayList<>();
+        for (String ID : studentIDs) {
+            float compulsoryCredit = 0;//必修不及格学分
+            float optionalCredit = 0;//选修不及格学分
+
+            List<CourseMessage> courseMessages = queryCoursesByStudentID(ID);
+            for (CourseMessage courseMessage : courseMessages) {
+                if (courseMessage.type().equals(Type.C.type())) {
+                    if (courseMessage.score() < 60.0) {
+                        compulsoryCredit += courseMessage.course().credit();
+                    }
+                } else if (courseMessage.type().equals(Type.O.type())) {
+                    if (courseMessage.score() < 60.0) {
+                        optionalCredit += courseMessage.course().credit();
+                    }
+                }
+            }
+            if (compulsoryCredit >= 10 - value || optionalCredit >= 15 - value) {
+                students.add(queryStudentByID(ID));
+            }
+        }
+        return students;
     }
 
     @Override
@@ -360,9 +489,84 @@ public class DatabaseController implements DatabaseControlInterface {
             pStmt.setString(2, courseID);
             pStmt.setString(3, teacherID);
             pStmt.executeUpdate();
-            System.out.println("[DB]增加教学表成功：" + classID + " " + courseID + " " +teacherID);
+            System.out.println("[DB]增加教学表成功：" + classID + " " + courseID + " " + teacherID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Major queryMajorByID(String majorID) {
+        Major major = null;
+        try {
+            String query = "SELECT 专业.* " +
+                    "FROM 专业 " +
+                    "WHERE 专业.专业号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, majorID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                major = new Major(
+                        rs.getString("专业号"),
+                        rs.getString("专业名")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return major;
+    }
+
+    @Override
+    public nomelin.entity.Class queryClassByStudentID(String studentID) {
+        nomelin.entity.Class class1 = null;
+        try {
+            String query = "SELECT 班级.* " +
+                    "FROM 班级 " +
+                    "INNER JOIN 学生 ON 学生.班号 = 班级.班号 " +
+                    "WHERE 学生.学号 = ?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                class1 = new nomelin.entity.Class(
+                        rs.getString("班号"),
+                        rs.getString("专业号"),
+                        rs.getInt("入学年份")
+                );
+                return class1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return class1;
+    }
+
+    @Override
+    public Course queryCourseByStudentAndTeacher(String studentID, String teacherID) {
+        Course course = null;
+        try {
+            String query = "SELECT 课程.* " +
+                    "FROM 课程 " +
+                    "INNER JOIN 教学 ON 课程.课程号 = 教学.课程号 " +
+                    "INNER JOIN 班级 ON 教学.班号 = 班级.班号 " +
+                    "INNER JOIN 学生 ON 班级.班号 = 学生.班号 " +
+                    "INNER JOIN 教师 ON 教学.工号 = 教师.工号 " +
+                    "WHERE 学号 = ? AND 教学.工号=?";
+            pStmt = con.prepareStatement(query);
+            pStmt.setString(1, studentID);
+            pStmt.setString(2, teacherID);
+            rs = pStmt.executeQuery();
+            if (rs.next()) {
+                course = new Course(
+                        rs.getString("课程号"),
+                        rs.getString("课程名"),
+                        rs.getFloat("学分")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return course;
     }
 }
