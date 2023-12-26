@@ -9,7 +9,6 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -335,6 +334,9 @@ public class DatabaseController implements DatabaseControlInterface {
     public List<CourseMessage> queryCoursesByStudentID(String studentID) {
         nomelin.entity.Class class1 = queryClassByStudentID(studentID);
         List<CourseMessage> courseMessages = new ArrayList<>();
+        if(class1==null){
+            return courseMessages;
+        }
         try {
             String query = "SELECT * " +
                     "FROM 课程 " +

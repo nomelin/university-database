@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24492afa-4e7b-4552-b75c-bc6b2d4e07f7" name="更改" comment="1">
-      <change afterPath="$PROJECT_DIR$/src/nomelin/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseControlInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/DatabaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nomelin/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nomelin/entity/CourseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/entity/CourseMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nomelin/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nomelin/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nomelin/UI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +121,7 @@
       <workItem from="1703048131456" duration="23362000" />
       <workItem from="1703164592303" duration="26007000" />
       <workItem from="1703422996136" duration="4191000" />
-      <workItem from="1703593864485" duration="1558000" />
+      <workItem from="1703593864485" duration="4269000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1703046967832</created>
@@ -246,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703237021092</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="1">
+      <created>1703595614016</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1703595614016</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
