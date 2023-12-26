@@ -1,8 +1,5 @@
 package nomelin;
 
-import nomelin.entity.*;
-
-import java.sql.*;
 import java.util.List;
 
 public class Main {
