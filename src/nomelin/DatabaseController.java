@@ -57,15 +57,6 @@ public class DatabaseController implements DatabaseControlInterface {
                 e.printStackTrace();
             }
         }
-        /*
-        if (stmt != null) {
-            //7、释放资源
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }*/
         if (rs != null) {
             //7、释放资源
             try {
